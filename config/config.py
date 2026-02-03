@@ -30,6 +30,9 @@ def _get_bool_env(name: str, default: bool = False) -> bool:
 
 def _get_str_env(name: str, default: str) -> str:
     value = os.getenv(name)
+    if value is None:
+        return default
+    value = value.strip()
     return value if value else default
 
 
