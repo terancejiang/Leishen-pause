@@ -40,7 +40,6 @@ def _seconds_until(target_time: dt_time) -> tuple[float, datetime]:
 
 
 def _pause_with_token(logger, cfg: dict, token: str) -> dict:
-    logger.info(cfg["base_url"])
     return pause(
         token,
         cfg["lang"],
