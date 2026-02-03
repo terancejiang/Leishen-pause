@@ -45,7 +45,7 @@
 1. 开启 `TELEGRAM_ENABLED=true`
 2. 配置 `TELEGRAM_BOT_TOKEN`、`TELEGRAM_CHAT_ID`
 3. 发送指令：`/token <new_token>`  
-脚本会在每天凌晨获取同时指令中的token，写入 `.env` 并回复更新结果。
+脚本会写入 `.env` 并回复更新结果。
 
 **如何获取 Token**
 请参考 6yy66yy 的 wiki，步骤详细清晰（直接链接如下）：  
@@ -53,8 +53,8 @@
 https://github.com/6yy66yy/legod-auto-pause/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%BD%91%E9%A1%B5%E7%99%BB%E5%BD%95%E8%8E%B7%E5%8F%96%E8%87%AA%E5%B7%B1%E7%9A%84token
 ```
 
-**GitHub Actions（更详细步骤）**
-1. Fork本repo
+**GitHub Actions**
+1. Fork 本 Repo（或自己新建仓库）
 2. 进入 GitHub 仓库 → `Settings` → `Secrets and variables` → `Actions`
 3. 点击 `New repository secret` 添加以下 Secrets  
    - `TOKEN`（必填）  
@@ -67,6 +67,10 @@ https://github.com/6yy66yy/legod-auto-pause/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%
 6. 定时运行  
    - 默认 cron 为 `0 0 * * *`（UTC 时间）  
    - 若需修改，请编辑 `.github/workflows/python-auto-pause.yml`
+7. 重要说明（避免冲突）  
+   - GitHub Actions 里会使用 `python main.py --once`  
+   - 这样只运行一次，不会进入脚本内部的每日循环  
+   - 如果你要部署在自己的服务器上，可以直接运行 `python main.py`，使用脚本内部的每日循环
 
 **常见问题**
 1. Token 过期：更新 `.env` 中 `TOKEN` 或使用浏览器自动获取
