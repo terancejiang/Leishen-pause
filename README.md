@@ -53,7 +53,7 @@
 https://github.com/6yy66yy/legod-auto-pause/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%BD%91%E9%A1%B5%E7%99%BB%E5%BD%95%E8%8E%B7%E5%8F%96%E8%87%AA%E5%B7%B1%E7%9A%84token
 ```
 
-**GitHub Actions（更详细步骤）**
+**GitHub Actions**
 1. Fork 本 Repo（或自己新建仓库）
 2. 进入 GitHub 仓库 → `Settings` → `Secrets and variables` → `Actions`
 3. 点击 `New repository secret` 添加以下 Secrets  
