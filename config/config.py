@@ -28,6 +28,11 @@ def _get_bool_env(name: str, default: bool = False) -> bool:
     return raw.strip().lower() in {"1", "true", "yes", "y", "on"}
 
 
+def _get_str_env(name: str, default: str) -> str:
+    value = os.getenv(name)
+    return value if value else default
+
+
 def load_config(require_token: bool = True) -> dict:
     env_path = _project_root() / ".env"
     load_dotenv(env_path)
@@ -38,16 +43,16 @@ def load_config(require_token: bool = True) -> dict:
 
     return {
         "account_token": account_token,
-        "lang": os.getenv("LANG", "zh_CN"),
-        "run_time": os.getenv("RUN_TIME", "04:00"),
+        "lang": _get_str_env("LANG", "zh_CN"),
+        "run_time": _get_str_env("RUN_TIME", "04:00"),
         "timeout_seconds": _get_int_env("TIMEOUT_SECONDS", 5),
-        "base_url": os.getenv("BASE_URL", "https://webapi.leigod.com"),
+        "base_url": _get_str_env("BASE_URL", "https://webapi.leigod.com"),
         "telegram_enabled": _get_bool_env("TELEGRAM_ENABLED", False),
         "telegram_bot_token": os.getenv("TELEGRAM_BOT_TOKEN", ""),
         "telegram_chat_id": os.getenv("TELEGRAM_CHAT_ID", ""),
         "telegram_poll_seconds": _get_int_env("TELEGRAM_POLL_SECONDS", 0),
-        "telegram_poll_time": os.getenv("TELEGRAM_POLL_TIME", "00:00"),
-        "token_fetch_url": os.getenv("TOKEN_FETCH_URL", "https://vip.leigod.com/user.html"),
+        "telegram_poll_time": _get_str_env("TELEGRAM_POLL_TIME", "00:00"),
+        "token_fetch_url": _get_str_env("TOKEN_FETCH_URL", "https://www.leigod.com/login"),
         "token_fetch_timeout_seconds": _get_int_env("TOKEN_FETCH_TIMEOUT_SECONDS", 180),
     }
 
