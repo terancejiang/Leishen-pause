@@ -9,9 +9,42 @@ on:
 jobs:
   pause:
     runs-on: ubuntu-latest
+    env:
+      TOKEN: ${{ secrets.TOKEN }}
+      TELEGRAM_ENABLED: ${{ secrets.TELEGRAM_ENABLED }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      TELEGRAM_POLL_TIME: ${{ secrets.TELEGRAM_POLL_TIME }}
+      TIMEOUT_SECONDS: ${{ secrets.TIMEOUT_SECONDS }}
+      BASE_URL: ${{ secrets.BASE_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Load .env fallback (if secrets are missing)
+        if: ${{ hashFiles('.env') != '' }}
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+
+          env_path = Path(".env")
+          if not env_path.exists():
+              raise SystemExit(0)
+
+          lines = env_path.read_text(encoding="utf-8").splitlines()
+          with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as out:
+              for line in lines:
+                  line = line.strip()
+                  if not line or line.startswith("#") or "=" not in line:
+                      continue
+                  key, value = line.split("=", 1)
+                  key = key.strip()
+                  if not key:
+                      continue
+                  if not os.environ.get(key):
+                      out.write(f"{key}={value}\n")
+          PY
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -24,12 +57,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Auto Pause
-        env:
-          TOKEN: ${{ secrets.TOKEN }}
-          TELEGRAM_ENABLED: ${{ secrets.TELEGRAM_ENABLED }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          TELEGRAM_POLL_TIME: ${{ secrets.TELEGRAM_POLL_TIME }}
-          TIMEOUT_SECONDS: ${{ secrets.TIMEOUT_SECONDS }}
-          BASE_URL: ${{ secrets.BASE_URL }}
         run: python main.py --once

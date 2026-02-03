@@ -53,7 +53,7 @@
 https://github.com/6yy66yy/legod-auto-pause/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%BD%91%E9%A1%B5%E7%99%BB%E5%BD%95%E8%8E%B7%E5%8F%96%E8%87%AA%E5%B7%B1%E7%9A%84token
 ```
 
-**GitHub Actions**
+**GitHub Actions（更详细步骤）**
 1. Fork 本 Repo（或自己新建仓库）
 2. 进入 GitHub 仓库 → `Settings` → `Secrets and variables` → `Actions`
 3. 点击 `New repository secret` 添加以下 Secrets  
@@ -67,7 +67,10 @@ https://github.com/6yy66yy/legod-auto-pause/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%
 6. 定时运行  
    - 默认 cron 为 `0 0 * * *`（UTC 时间）  
    - 若需修改，请编辑 `.github/workflows/python-auto-pause.yml`
-7. 重要说明（避免冲突）  
+7. 如果 Secrets 未配置  
+   - Workflow 会尝试读取仓库根目录的 `.env`  
+   - 建议优先使用 Secrets，避免在仓库中保存敏感信息
+8. 重要说明（避免冲突）  
    - GitHub Actions 里会使用 `python main.py --once`  
    - 这样只运行一次，不会进入脚本内部的每日循环  
    - 如果你要部署在自己的服务器上，可以直接运行 `python main.py`，使用脚本内部的每日循环
