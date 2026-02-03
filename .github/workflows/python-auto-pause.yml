@@ -1,0 +1,35 @@
+name: Auto Pause Leishen (Python)
+
+on:
+  schedule:
+    # Runs daily at 00:00 UTC (adjust if you want a different timezone)
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  pause:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Auto Pause
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+          TELEGRAM_ENABLED: ${{ secrets.TELEGRAM_ENABLED }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_POLL_TIME: ${{ secrets.TELEGRAM_POLL_TIME }}
+          TIMEOUT_SECONDS: ${{ secrets.TIMEOUT_SECONDS }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+        run: python main.py --once

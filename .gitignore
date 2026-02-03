@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+!**/.env.example
+
+# Logs
+*.log
+log/
+
+# Runtime files
+app.pid
+app.lock
+
+# Playwright
+ms-playwright/
+**/.cache/ms-playwright/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# env
+.env
